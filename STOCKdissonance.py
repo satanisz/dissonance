@@ -56,7 +56,7 @@ namelist = ['acp', 'ccc', 'cdr', 'cps', 'dnp', 'spl',
             'jsw', 'kgh', 'lpp', 'lts', 'mrc', 'opl',
             'peo', 'pge', 'pgn', 'pkn', 'pko', 'pzu', 'tpe']
 namelist = ['acp', 'ccc', 'cdr', 'cps', 'dnp', 'spl',
-            'jsw', 'kgh', 'lpp']
+            'jsw', 'kgh', 'lpp', 'pkn', 'pko', 'pzu']
 # namelist = ['acp', 'ccc', 'cdr', 'cps', 'dnp', 'spl']
 
 filelist = ("notowania/"+name+"_d.csv" for name in namelist)
@@ -70,7 +70,7 @@ dataframes = (frame.reset_index() for frame in dataframes)
 dataframes = (frame.drop(columns = ["index"]) for frame in dataframes)
 dataframe = functools.reduce(lambda df1, df2: pd.concat([df1, df2], axis=1), dataframes)
 
-corrframe =  dataframe.rolling(30).corr()
+corrframe =  dataframe.rolling(60).corr()
 L = corrframe.last_valid_index()[0]
 M = len(namelist) # Number of nodes
 N = int((M**2 - M)/2) # Number of connections
@@ -118,7 +118,8 @@ for k in range(T):
 
 fig, ax = plt.subplots(nrows=int(len(namelist)/2), ncols=2, figsize=(13.8,len(namelist)*7))
 ind1 = 1
-namelist2 = ['acp', 'ccc', 'cdr', 'cps', 'dnp', 'spl']
+namelist2 = ['acp', 'ccc', 'cdr', 'cps', 'dnp', 'spl',
+            'jsw', 'kgh', 'lpp', 'pkn', 'pko', 'pzu']
 for name in namelist2:
     ind0 = int(namelist2.index(name)/2)
     ind1 = (ind1 + 1) % 2
